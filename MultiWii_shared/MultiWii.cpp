@@ -623,6 +623,26 @@ void annexCode() { // this code is excetuted at each loop and won't interfere wi
       #endif
     #endif
   }
+  
+  #if defined(DIAL_TUNING_BG)
+    #if defined(POT_G)
+      #if defined(POT_A)
+        if (rcData[POT_A] < 1500)
+        {
+          int ku = (rcData[POT_G]-1077);
+          int kp = ku/5;
+          int ki = 2*kp/2;
+          int kd = kp/3*2;
+          conf.pid[PIDROLL].P8 = kp;
+          conf.pid[PIDPITCH].P8 = kp;
+          conf.pid[PIDROLL].I8 = ki;
+          conf.pid[PIDPITCH].I8 = ki;
+          conf.pid[PIDROLL].D8 = kd;
+          conf.pid[PIDPITCH].D8 = kd;
+        }
+      #endif
+    #endif
+  #endif
 }
 
 void setup() {
