@@ -623,6 +623,32 @@ void annexCode() { // this code is excetuted at each loop and won't interfere wi
       #endif
     #endif
   }
+  
+  #if defined(DIAL_TUNING_BG)
+    #if defined(POT_G)
+      #if defined(POT_A)
+          int ku = 2*(rcData[POT_G]-1077)/3;  //0-11.8ish
+          int tu = 15*(rcData[POT_A]-1077)/(ku/12); //Parameterized to ku; this keeps the D value constant as you change P
+          //Ziegler–Nichols method: no overshoot from http://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method
+          int kp = ku/5;
+          int ki = 2*kp*100/tu;
+          int kd = kp/3*tu/100;
+          //Set axis values
+          conf.pid[PIDROLL].P8 = kp;
+          conf.pid[PIDPITCH].P8 = kp;
+          conf.pid[PIDROLL].I8 = ki;
+          conf.pid[PIDPITCH].I8 = ki;
+          conf.pid[PIDROLL].D8 = kd;
+          conf.pid[PIDPITCH].D8 = kd;
+          
+          //Set level values
+          kp = 123 - kp; //Level P is just MultiWii's default constant (12.3) minus axis P
+          ki = 2*kp/10*100/tu; //Should be the same formula as axis I, but default seeting seem to reflect this equation
+          conf.pid[PIDLEVEL].P8 = kp;
+          conf.pid[PIDLEVEL].I8 = ki;
+      #endif
+    #endif
+  #endif
 }
 
 void setup() {

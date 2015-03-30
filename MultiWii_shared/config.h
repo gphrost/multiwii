@@ -1193,7 +1193,10 @@ Also note, that maqgnetic declination changes with time, so recheck your value e
   //#define D12_POWER      // Use D12 on PROMINI to power sensors. Will disable servo[4] on D12
   /* disable use of the POWER PIN (allready done if the option RCAUXPIN12 is selected) */
   #define DISABLE_POWER_PIN
-
+  
+  #define DIAL_TUNING_BG
+  #define POT_G AUX2
+  #define POT_A AUX1
 /*************************************************************************************************/
 /****           END OF CONFIGURABLE PARAMETERS                                                ****/
 /*************************************************************************************************/
